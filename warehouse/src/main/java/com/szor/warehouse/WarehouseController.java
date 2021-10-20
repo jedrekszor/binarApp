@@ -1,15 +1,35 @@
 package com.szor.warehouse;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/warehouse")
+@AllArgsConstructor
 public class WarehouseController {
 
-    @GetMapping("/test")
-    public String test() {
-        return "warehouse";
+    private final WarehouseRepository warehouseRepository;
+    private final WarehouseService warehouseService;
+
+    @GetMapping("/getAllProducts")
+    public List<Product> getAllProducts() {
+        return warehouseRepository.getAllProducts();
+    }
+
+    @GetMapping("/getProduct")
+    public Product getProduct(@RequestParam Long id) {
+        return warehouseRepository.getProduct(id);
+    }
+
+    @PostMapping("/addProduct")
+    public void addProduct(@RequestBody Product product) {
+        warehouseRepository.addProduct(product);
+    }
+
+    @DeleteMapping("/removeProduct")
+    public void removeProduct(@RequestParam Long id, @RequestParam Long amount) {
+        warehouseService.removeProduct(id, amount);
     }
 }

@@ -1,10 +1,9 @@
 package com.szor.sales;
 
-import com.szor.policy.PolicyService;
-import com.szor.warehouse.WarehouseService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -12,21 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class SalesController {
 
-    private final WarehouseService warehouseService;
-    private final PolicyService policyService;
+    private final SalesService salesService;
+
+    @GetMapping("/buy")
+    public String buy(@RequestParam Long id, @RequestParam Long amount) {
+        return salesService.buyProduct(id, amount);
+    }
+
+
 
     @GetMapping("/test")
     public String test() {
         return "sales";
-    }
-
-    @GetMapping("/testws")
-    public String testws() {
-        return warehouseService.getWarehouse();
-    }
-
-    @GetMapping("/testps")
-    public String testps() {
-        return policyService.getPolicy();
     }
 }
